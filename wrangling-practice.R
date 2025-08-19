@@ -23,4 +23,52 @@ tootidy_2pengus <- penguins %>%
 
 
 #### Wrangling continued ####
+animals <- data.frame(
+  stringsAsFactors = FALSE,
+          location = c("lagoon", "bluff", "creek", "oaks", "bluff"),
+           species = c("bobcat", "coyote", "fox", "squirrel", "bobcat"),
+          maturity = c("adult", "juvenile", "adult", "juvenile", "adult")
+) #tools-> addins -> browse -> paste as df
+
+sites <- data.frame(
+  stringsAsFactors = FALSE,
+          location = c("beach", "lagoon", "bluff", "oaks"),
+             full_site_name = c("Goleta Beach","UCSB Lagoon","Ellwood Mesa",
+                                "Fremont Campground"),
+      jurisdiction = c("SB City", "UCSB", "SB City", "USFS")
+         )
+
+
+#### Join Practice ####
+
+#full_join
+full_join_example <- full_join(animals, sites); full_join_example
+
+#Left_join
+
+left_join_ex <- left_join(animals, sites); left_join_ex
+
+#right_join
+
+right_join_ex <- right_join(animals, sites); right_join_ex #double bluff
+
+#inner_join
+
+inner_join_ex <- inner_join(animals, sites);inner_join_ex
+
+#filtering_joins
+
+#semi_join
+
+semi_join_ex <- semi_join(animals,sites);semi_join_ex
+
+#same as
+
+animals %>%
+  filter(location %in% sites$location)
+
+#anti_join
+
+anti_join_ex <- anti_join(animals, sites); anti_join_ex
+
 
