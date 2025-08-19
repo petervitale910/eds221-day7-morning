@@ -71,4 +71,140 @@ animals %>%
 
 anti_join_ex <- anti_join(animals, sites); anti_join_ex
 
+#### Lubridate ts####
+#month first
+my_date <- "03-15-1998"
+
+lubridate::mdy(my_date) #you have to tell lubridate mdy
+
+#day first
+my_date <- "08-Jun-1974"
+
+lubridate::dmy(my_date) #need to do dmy
+#year first
+my_date <- "19610818"
+
+lubridate::ymd(my_date)
+
+#can fail
+lubridate::mdy("1942/08/30")
+
+#or be misleading
+lubridate::dmy ("09/12/84")
+
+#working with date_times
+
+time <- "2020-08-12 11:18"
+time <- ymd_hm(time) #,tz = "America/Los_angeles" sets tz
+
+#convert to pdt
+with_tz(time, tzone = "America/Los_angeles") #didnt add tz but converted our time zone to pdt
+
+#extract info from dates
+week(time)
+year(time)
+day(time)
+month(time)
+hour(time)
+minute(time)
+tz(time)
+
+#can get current time at computer
+Sys.time()
+
+start_time <- Sys.time()
+
+end_time <- Sys.time()
+
+end_time - start_time
+
+#### Practice lubridate in df ####
+urchin_counts <- tribble(
+  ~date, ~species, ~size_mm,
+  "10/30/2020", "purple", 55,
+  "10/4/2020", "red", 48,
+  "11/17/2020", "red", 67
+)
+
+urchin_counts %>%
+  mutate(date = lubridate::mdy(date)) %>%
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date))
+
+
+#math with dates
+day_1 <- ymd("2020/1/6")
+day_2 <- ymd("2020/5/18")
+day_3 <- ymd("2020/5/19")
+
+#create time interval
+time_interval <- interval(day_1, day_2);time_interval
+time_length(time_interval, "week")
+time_length(time_interval, "year")
+time_length(time_interval, "second")
+
+#### stringr ####
+
+#str detect to detect string patterns
+
+my_string <- "Teddy loves eating salmon and socks"
+
+#Does "love" exist within the string
+
+my_string %>%
+  str_detect("love")
+
+my_string %>%
+  str_detect("pup")
+
+#works over data frame
+
+my_string <- c("burrito", "fish taco", "taco salad")
+
+#Contains fish?
+
+my_string %>%
+  str_detect("fish")
+
+
+#VERY powerful when in combo with other functions
+
+head(starwars)
+
+skywalkers <- starwars %>%
+  filter(str_detect(name, "Skywalker")); skywalkers
+
+#Str replace to replace with pattern
+
+firewalkers <- starwars %>%
+  mutate(name = str_replace(name, pattern = "Sky",
+                            replacement = "Fire"))
+
+
+#Ugly string to work with
+
+feedback <- c(" I ate    nachos     some   nachos", "Wednesday morning    "); feedback
+
+#remove leading, trailing and duplicate spaces
+
+str_squish(feedback)
+
+#remove leading and trailing
+str_trim(feedback)
+
+#Lowercase
+str_to_lower(feedback)
+
+#Uppercase
+
+str_to_upper(feedback)
+
+#Title
+str_to_title(feedback)
+
+#count matches
+
+str_count(feedback, pattern = "nachos")
+
 
